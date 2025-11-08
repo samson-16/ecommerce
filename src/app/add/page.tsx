@@ -66,7 +66,9 @@ export default function AddProductPage() {
         category: form.category.trim(),
       };
 
-      const response = await fetch("https://dummyjson.com/products/add", {
+      const apiUrl =
+        process.env.NEXT_PUBLIC_API_BASE_URL || "https://dummyjson.com";
+      const response = await fetch(`${apiUrl}/products/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -102,12 +104,14 @@ export default function AddProductPage() {
           &larr; Back
         </Button>
       </div>
+
       <Card>
         <CardHeader>
           <CardTitle>Product Details</CardTitle>
         </CardHeader>
         <CardContent>
           <form className="space-y-5" onSubmit={handleSubmit}>
+            {/* Title */}
             <div className="space-y-1">
               <label className="text-sm font-medium" htmlFor="title">
                 Title
@@ -122,6 +126,7 @@ export default function AddProductPage() {
               />
             </div>
 
+            {/* Description */}
             <div className="space-y-1">
               <label className="text-sm font-medium" htmlFor="description">
                 Description
@@ -133,14 +138,15 @@ export default function AddProductPage() {
                 onChange={handleChange}
                 placeholder="Describe the product"
                 required
-                className="min-h-[120px] w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-zinc-400 dark:border-zinc-700 dark:bg-zinc-950"
+                className="min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
               />
             </div>
 
+            {/* Price and Stock */}
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-1">
                 <label className="text-sm font-medium" htmlFor="price">
-                  Price
+                  Price ($)
                 </label>
                 <Input
                   id="price"
@@ -173,6 +179,7 @@ export default function AddProductPage() {
               </div>
             </div>
 
+            {/* Brand and Category */}
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-1">
                 <label className="text-sm font-medium" htmlFor="brand">
@@ -202,9 +209,10 @@ export default function AddProductPage() {
               </div>
             </div>
 
+            {/* Submit Buttons */}
             <div className="flex gap-4">
               <Button type="submit" disabled={isSubmitting} className="flex-1">
-                {isSubmitting ? "Submitting..." : "Create Product"}
+                {isSubmitting ? "Creating..." : "Create Product"}
               </Button>
               <Button
                 type="button"
@@ -216,6 +224,7 @@ export default function AddProductPage() {
               </Button>
             </div>
 
+            {/* Error Message */}
             {error && (
               <p className="rounded-md border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-600 dark:border-red-900/50 dark:bg-red-900/20 dark:text-red-200">
                 {error}
@@ -225,50 +234,44 @@ export default function AddProductPage() {
         </CardContent>
       </Card>
 
+      {/* Success Message */}
       {createdProduct && (
         <Card>
           <CardHeader>
-            <CardTitle>Product Created</CardTitle>
+            <CardTitle>Product Created Successfully!</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2 text-sm text-zinc-600 dark:text-zinc-300">
-            <p>
-              <span className="font-semibold text-zinc-900 dark:text-zinc-100">
-                Title:
-              </span>{" "}
-              {createdProduct.title}
-            </p>
-            <p>
-              <span className="font-semibold text-zinc-900 dark:text-zinc-100">
-                Description:
-              </span>{" "}
-              {createdProduct.description}
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <p>
-                <span className="font-semibold text-zinc-900 dark:text-zinc-100">
-                  Price:
-                </span>{" "}
-                ${createdProduct.price}
-              </p>
-              <p>
-                <span className="font-semibold text-zinc-900 dark:text-zinc-100">
-                  Stock:
-                </span>{" "}
-                {createdProduct.stock}
-              </p>
-              <p>
-                <span className="font-semibold text-zinc-900 dark:text-zinc-100">
-                  Brand:
-                </span>{" "}
-                {createdProduct.brand}
-              </p>
-              <p>
-                <span className="font-semibold text-zinc-900 dark:text-zinc-100">
-                  Category:
-                </span>{" "}
-                {createdProduct.category}
-              </p>
+          <CardContent className="space-y-3">
+            <div className="grid gap-3 text-sm">
+              <div>
+                <span className="font-semibold">Title:</span>{" "}
+                {createdProduct.title}
+              </div>
+              <div>
+                <span className="font-semibold">Description:</span>{" "}
+                {createdProduct.description}
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <span className="font-semibold">Price:</span> $
+                  {createdProduct.price}
+                </div>
+                <div>
+                  <span className="font-semibold">Stock:</span>{" "}
+                  {createdProduct.stock}
+                </div>
+                <div>
+                  <span className="font-semibold">Brand:</span>{" "}
+                  {createdProduct.brand}
+                </div>
+                <div>
+                  <span className="font-semibold">Category:</span>{" "}
+                  {createdProduct.category}
+                </div>
+              </div>
             </div>
+            <Button onClick={() => router.push("/")} className="w-full">
+              View All Products
+            </Button>
           </CardContent>
         </Card>
       )}

@@ -31,7 +31,9 @@ export default function EditProductPage() {
 
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`https://dummyjson.com/products/${id}`);
+        const apiUrl =
+          process.env.NEXT_PUBLIC_API_BASE_URL || "https://dummyjson.com";
+        const response = await fetch(`${apiUrl}/products/${id}`);
         if (!response.ok) {
           throw new Error("Failed to fetch product data.");
         }
@@ -86,7 +88,9 @@ export default function EditProductPage() {
         category: form.category.trim(),
       };
 
-      const response = await fetch(`https://dummyjson.com/products/${id}`, {
+      const apiUrl =
+        process.env.NEXT_PUBLIC_API_BASE_URL || "https://dummyjson.com";
+      const response = await fetch(`${apiUrl}/products/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/redux/providers";
 import { Toaster } from "react-hot-toast";
-import { Header, FloatingActionButton } from "@/components/layout";
+import { Navigation, FloatingActionButton } from "@/components/layout";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Providers>
-          <Header />
+          <Navigation />
           <div className="container mx-auto">{children}</div>
           <FloatingActionButton />
           <Toaster

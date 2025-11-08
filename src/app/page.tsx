@@ -41,7 +41,6 @@ export default function HomePage() {
 
     const timer = setTimeout(
       () => {
-        console.log("Fetching:", { query, category, skip });
         dispatch(fetchProducts({ query, category, skip }));
       },
       isFilterChange ? 500 : 0
